@@ -1,15 +1,53 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro'
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout class="bg-home-mobile sm:bg-home-tablet lg:bg-home-desktop">
+  <section
+    class:list={[
+      'mt-6 pb-11 sm:mt-[6.5rem] sm:pb-[5.5rem] lg:flex lg:items-end',
+      'lg:justify-between lg:pb-32'
+    ]}
+  >
+    <div class="mx-auto max-w-[27.5rem] text-center lg:mx-0">
+      <h5
+        class:list={[
+          'font-condensed uppercase tracking-[0.17em] text-light sm:text-xl',
+          'lg:text-[1.75rem]'
+        ]}
+      >
+        So, you want to travel to
+      </h5>
+      <h1
+        class:list={[
+          'my-4 font-serif text-[5rem] uppercase leading-tight sm:my-6',
+          'sm:text-[9.375rem] sm:leading-none'
+        ]}
+      >
+        Space
+      </h1>
+      <p
+        class:list={[
+          'text-[0.9375rem] leading-relaxed text-light sm:text-base',
+          'sm:leading-7 lg:text-lg lg:leading-8'
+        ]}
+      >
+        Let’s face it; if you want to go to space, you might as well genuinely
+        go to outer space and not hover kind of on the edge of it. Well sit
+        back, and relax because we’ll give you a truly out of this world
+        experience!
+      </p>
+    </div>
+    <a
+      class:list={[
+        'mx-auto mt-20 grid aspect-square w-[9.375rem] place-items-center',
+        'rounded-full bg-white font-serif text-xl text-primary uppercase',
+        'tracking-[0.0625em] transition hover:shadow-3xl sm:mt-[9.75rem]',
+        'sm:w-[15.125rem] sm:text-[2rem] lg:m-0 lg:w-[17.125rem]'
+      ]}
+      href="/destination"
+    >
+      Explore
+    </a>
+  </section>
+</BaseLayout>

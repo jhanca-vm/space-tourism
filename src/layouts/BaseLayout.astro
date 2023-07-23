@@ -1,0 +1,65 @@
+---
+import '@fontsource/bellefair'
+import '@fontsource/barlow'
+import '@fontsource/barlow-condensed/400.css'
+import '@fontsource/barlow-condensed/700.css'
+import Menu from '../components/Menu.svelte'
+import logo from '../assets/logo.svg'
+
+interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>Space Tourism</title>
+    <meta
+      name="description"
+      content={'Let’s face it; if you want to go to space, you might as well ' +
+        'genuinely go to outer space and not hover kind of on the edge of ' +
+        'it. Well sit back, and relax because we’ll give you a truly out of ' +
+        'this world experience!'}
+    />
+  </head>
+  <body
+    class:list={['min-h-screen bg-primary bg-[length:100%_100%]', className]}
+  >
+    <header
+      class:list={[
+        'flex items-center justify-between p-6 sm:py-0 sm:pl-10 sm:pr-0',
+        'lg:py-10 lg:pl-14'
+      ]}
+    >
+      <a href="/">
+        <img
+          class="w-10 sm:w-12"
+          src={logo}
+          alt="Space Tourism Logo"
+          width="48"
+          height="48"
+        />
+      </a>
+      <span
+        class:list={[
+          'relative -right-8 z-10 ml-8 hidden h-px flex-grow bg-white/25',
+          'lg:block'
+        ]}></span>
+      <Menu client:media="(max-width: 639px)" pathname={Astro.url.pathname} />
+    </header>
+    <main class="px-6 sm:px-10 xl:px-40">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    color-scheme: dark;
+  }
+</style>
