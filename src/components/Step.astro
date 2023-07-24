@@ -1,0 +1,18 @@
+---
+interface Props {
+  number: 1 | 2 | 3
+  name: string
+}
+
+const { number, name } = Astro.props
+---
+
+<h5
+  class:list={[
+    'flex justify-center gap-x-4 font-condensed uppercase tracking-[0.17em]',
+    `mb-8 before:content-${number} before:font-bold before:opacity-25 sm:mt-10`,
+    'sm:mb-[3.75rem] sm:justify-start sm:text-xl lg:mt-0 lg:mb-14'
+  ]}
+>
+  {name}
+</h5>

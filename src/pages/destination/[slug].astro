@@ -1,0 +1,107 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content'
+import BaseLayout from '@layouts/BaseLayout.astro'
+import Step from '@components/Step.astro'
+
+interface Props {
+  destination: CollectionEntry<'destinations'>
+}
+
+export async function getStaticPaths() {
+  const destinations = await getCollection('destinations')
+
+  return destinations.map(destination => ({
+    params: { slug: destination.slug },
+    props: { destination }
+  }))
+}
+
+const { destination } = Astro.props
+---
+
+<BaseLayout
+  class="bg-destination-mobile sm:bg-destination-tablet lg:bg-destination-desktop"
+>
+  <Step number={1} name="Pick your destination" />
+  <section
+    class:list={[
+      'pb-14 sm:pb-[3.75rem] lg:grid lg:grid-cols-[1fr_28rem] lg:items-end',
+      'lg:pb-[5.75rem]'
+    ]}
+  >
+    <img
+      class="w-[10.625rem] mx-auto sm:w-[18.75rem] lg:w-[25rem]"
+      src={`/images/destination/${destination.slug}.webp`}
+      alt={destination.data.name}
+      width="445"
+      height="445"
+    />
+    <div class="text-center lg:text-left">
+      <nav
+        class:list={[
+          'mt-6 font-condensed text-secondary text-sm uppercase',
+          'tracking-[0.17em] sm:mt-[3.25rem] sm:text-base lg:mt-0'
+        ]}
+      >
+        <ul class="flex justify-center gap-x-6 sm:gap-x-8 lg:justify-start">
+          {
+            ['moon', 'mars', 'europa', 'titan'].map(slug => (
+              <li class="relative">
+                <a
+                  class:list={[
+                    'block h-8 after:absolute after:inset-x-0 after:bottom-0',
+                    'after:h-[3px] hover:after:bg-white/50 sm:h-9',
+                    { 'text-white after:!bg-white': slug === destination.slug }
+                  ]}
+                  href={`/destination/${slug}`}
+                >
+                  {slug}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <h2
+        class:list={[
+          'mt-5 font-serif text-[3.5rem] uppercase leading-none sm:mt-8',
+          'sm:text-[5rem] lg:mt-9 lg:text-[6.25rem]'
+        ]}
+      >
+        {destination.data.name}
+      </h2>
+      <p
+        class:list={[
+          'max-w-xl mx-auto text-secondary leading-[1.75] sm:mt-2 lg:text-lg',
+          'lg:mt-4'
+        ]}
+      >
+        {destination.data.description}
+      </p>
+      <div
+        class:list={[
+          'flex flex-col gap-y-8 max-w-xl mx-auto mt-8 pt-8 uppercase border-t',
+          'border-[#383b4b] sm:flex-row sm:justify-evenly sm:mt-12 sm:pt-7',
+          'lg:grid lg:grid-cols-2 lg:mt-[3.25rem]'
+        ]}
+      >
+        <p>
+          <span class="font-condensed text-sm text-secondary tracking-[0.17em]">
+            Avg. Distance
+          </span>
+          <span class="block mt-3 font-serif text-[1.75rem] leading-none">
+            {destination.data.distance}
+          </span>
+        </p>
+        <p>
+          <span class="font-condensed text-sm text-secondary tracking-[0.17em]">
+            Est. travel time
+          </span>
+          <span class="block mt-3 font-serif text-[1.75rem] leading-none">
+            {destination.data.travel}
+          </span>
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -17,7 +17,7 @@ export default {
       },
       colors: {
         primary: '#0b0d17',
-        secundary: '#d0d6f9'
+        secondary: '#d0d6f9'
       },
       content: {
         1: "'01'",

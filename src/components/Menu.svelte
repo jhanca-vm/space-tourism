@@ -8,8 +8,8 @@
 
 <nav
   class:hidden={isHidden}
-  class={'fixed inset-y-0 right-0 h-screen w-64 bg-white/[0.04] py-28 pl-8 ' +
-    'backdrop-blur-2xl sm:static sm:block sm:h-auto sm:w-auto sm:px-12 ' +
+  class={'fixed z-10 inset-y-0 right-0 h-screen w-64 bg-white/[0.04] py-28 ' +
+    'pl-8 backdrop-blur-2xl sm:static sm:block sm:h-auto sm:w-auto sm:px-12 ' +
     'sm:py-0 lg:pl-[7.75rem] lg:pr-[10.5rem]'}
 >
   <ol class="flex flex-col gap-y-6 sm:flex-row sm:gap-x-9 lg:gap-x-[3.25rem]">
