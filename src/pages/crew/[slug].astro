@@ -1,0 +1,87 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content'
+import BaseLayout from '@layouts/BaseLayout.astro'
+import Step from '@components/Step.astro'
+
+interface Props {
+  member: CollectionEntry<'crew'>
+  paths: string[]
+}
+
+export async function getStaticPaths() {
+  const crew = await getCollection('crew')
+
+  return crew.map(member => ({
+    params: { slug: member.slug },
+    props: { member, paths: crew.map(({ slug }) => slug) }
+  }))
+}
+
+const { member, paths } = Astro.props
+---
+
+<BaseLayout class="bg-crew-mobile sm:bg-crew-tablet lg:bg-crew-desktop">
+  <Step number={2} name="Meet your crew" />
+  <section
+    class:list={[
+      'pb-14 sm:flex sm:flex-col-reverse sm:pb-0 lg:justify-between',
+      'lg:grid lg:grid-cols-[max-content_minmax(auto,_400px)] lg:items-end'
+    ]}
+  >
+    <figure class="border-b border-[#383b4b] lg:col-start-2">
+      <img
+        class="h-[13.875rem] mx-auto sm:h-[33rem] lg:h-auto"
+        src={`/images/crew/${member.slug}.webp`}
+        alt={member.data.name}
+      />
+    </figure>
+    <div
+      class="text-center sm:flex sm:flex-col-reverse lg:text-left lg:row-start-1"
+    >
+      <nav class="my-8 sm:my-10 lg:my-20">
+        <ul class="flex justify-center gap-x-4 lg:justify-start lg:gap-x-6">
+          {
+            paths.map(slug => (
+              <li>
+                <a
+                  class:list={[
+                    'block h-2.5 w-2.5 rounded-full transition',
+                    'hover:bg-white/50 lg:h-3.5 lg:w-3.5',
+                    slug === member.slug ? '!bg-white' : 'bg-white/20'
+                  ]}
+                  href={`/crew/${slug}`}
+                />
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <div>
+        <h4
+          class:list={[
+            'font-serif uppercase leading-none opacity-50 sm:text-2xl',
+            'lg:text-[2rem]'
+          ]}
+        >
+          {member.data.role}
+        </h4>
+        <h3
+          class:list={[
+            'font-serif text-2xl uppercase leading-none mt-2 sm:text-[2.5rem]',
+            'lg:mt-4 lg:text-[3.5rem]'
+          ]}
+        >
+          {member.data.name}
+        </h3>
+        <p
+          class:list={[
+            'text-secondary leading-[1.75] max-w-[37rem] mx-auto mt-4',
+            'lg:mt-7 lg:mx-0 lg:max-w-[27.5rem] lg:text-lg'
+          ]}
+        >
+          {member.data.bio}
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

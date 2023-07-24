@@ -1,7 +1,7 @@
 <script lang="ts">
   export let pathname: string
 
-  const links = ['destination', 'crew', 'technology']
+  const links = ['/destination/moon', '/crew/anousheh-ansari', '/technology']
 
   let isHidden = true
 </script>
@@ -13,7 +13,8 @@
     'sm:py-0 lg:pl-[7.75rem] lg:pr-[10.5rem]'}
 >
   <ol class="flex flex-col gap-y-6 sm:flex-row sm:gap-x-9 lg:gap-x-[3.25rem]">
-    {#each links as name, index}
+    {#each links as link, index}
+      {@const name = link.split('/')[1]}
       {@const beforeContent = `before:content-${index + 1}`}
       <li class="relative font-condensed uppercase tracking-[0.17em]">
         <a
@@ -23,7 +24,7 @@
             'after:w-[4px] hover:after:bg-white/50 sm:h-24 sm:text-sm ' +
             'sm:before:content-none sm:after:inset-x-0 sm:after:top-auto ' +
             `sm:after:h-[3px] sm:after:w-full lg:text-base lg:${beforeContent}`}
-          href={`/${name}`}
+          href={link}
         >
           {name}
         </a>

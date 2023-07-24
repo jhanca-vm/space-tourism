@@ -11,6 +11,7 @@ interface Props {
 }
 
 const { class: className } = Astro.props
+const { pathname } = Astro.url
 ---
 
 <html lang="en">
@@ -28,7 +29,10 @@ const { class: className } = Astro.props
     />
   </head>
   <body
-    class:list={['min-h-screen bg-primary bg-[length:100%_100%]', className]}
+    class:list={[
+      'min-h-screen flex flex-col bg-primary bg-[length:100%_100%]',
+      className
+    ]}
   >
     <header
       class:list={[
@@ -52,7 +56,14 @@ const { class: className } = Astro.props
         ]}></span>
       <Menu client:media="(max-width: 639px)" pathname={Astro.url.pathname} />
     </header>
-    <main class="px-6 sm:px-10 xl:px-[10.25rem]">
+    <main
+      class:list={[
+        'flex-grow px-6 sm:px-10 xl:px-[10.25rem]',
+        {
+          'sm:flex sm:flex-col sm:justify-between': pathname.startsWith('/crew')
+        }
+      ]}
+    >
       <slot />
     </main>
   </body>
