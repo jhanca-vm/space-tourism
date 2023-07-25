@@ -1,7 +1,11 @@
 <script lang="ts">
   export let pathname: string
 
-  const links = ['/destination/moon', '/crew/anousheh-ansari', '/technology']
+  const links = [
+    '/destination/moon',
+    '/crew/anousheh-ansari',
+    '/technology/launch-vehicle'
+  ]
 
   let isHidden = true
 </script>

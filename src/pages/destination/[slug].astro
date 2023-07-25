@@ -5,18 +5,26 @@ import Step from '@components/Step.astro'
 
 interface Props {
   destination: CollectionEntry<'destinations'>
+  paths: string[]
 }
 
 export async function getStaticPaths() {
   const destinations = await getCollection('destinations')
 
-  return destinations.map(destination => ({
-    params: { slug: destination.slug },
-    props: { destination }
-  }))
+  return destinations.map(destination => {
+    const slug = destination.slug.substring(2)
+
+    return {
+      params: { slug },
+      props: {
+        destination: { ...destination, slug },
+        paths: destinations.map(({ slug }) => slug.substring(2))
+      }
+    }
+  })
 }
 
-const { destination } = Astro.props
+const { destination, paths } = Astro.props
 ---
 
 <BaseLayout
@@ -45,7 +53,7 @@ const { destination } = Astro.props
       >
         <ul class="flex justify-center gap-x-6 sm:gap-x-8 lg:justify-start">
           {
-            ['moon', 'mars', 'europa', 'titan'].map(slug => (
+            paths.map(slug => (
               <li class="relative">
                 <a
                   class:list={[
@@ -73,7 +81,7 @@ const { destination } = Astro.props
       <p
         class:list={[
           'max-w-xl mx-auto text-secondary leading-[1.75] sm:mt-2 lg:text-lg',
-          'lg:mt-4'
+          'lg:leading-8 lg:mt-4'
         ]}
       >
         {destination.data.description}

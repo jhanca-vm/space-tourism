@@ -1,0 +1,97 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content'
+import BaseLayout from '@layouts/BaseLayout.astro'
+import Step from '@components/Step.astro'
+import Picture from '@components/Picture.astro'
+
+interface Props {
+  technology: CollectionEntry<'technologies'>
+  paths: string[]
+}
+
+export async function getStaticPaths() {
+  const technologies = await getCollection('technologies')
+
+  return technologies.map(technology => {
+    const slug = technology.slug.substring(2)
+
+    return {
+      params: { slug },
+      props: {
+        technology: { ...technology, slug },
+        paths: technologies.map(({ slug }) => slug.substring(2))
+      }
+    }
+  })
+}
+
+const { technology, paths } = Astro.props
+---
+
+<BaseLayout
+  class="bg-technology-mobile sm:bg-technology-tablet lg:bg-technology-desktop"
+>
+  <Step number={3} name="Space launch 101" />
+  <section
+    class:list={[
+      'pb-16 sm:pb-20 lg:grid lg:grid-cols-[1fr_max-content] lg:items-center',
+      'lg:gap-x-10 lg:pb-24'
+    ]}
+  >
+    <Picture slug={technology.slug} name={technology.data.name} />
+    <div class="lg:row-start-1 xl:flex xl:items-center xl:gap-x-20">
+      <nav class="mt-8 mb-7 sm:mt-14 sm:mb-11 lg:mt-0 xl:mb-0">
+        <ol
+          class:list={[
+            'flex justify-center gap-x-4 lg:justify-start xl:flex-col xl:gap-y-8'
+          ]}
+        >
+          {
+            paths.map((slug, index) => (
+              <li class="font-serif sm:text-2xl lg:text-[2rem]">
+                <a
+                  class:list={[
+                    'w-10 aspect-square grid place-items-center rounded-full',
+                    'border border-white',
+                    { 'bg-white text-primary': slug === technology.slug },
+                    { 'border-opacity-25': slug !== technology.slug },
+                    'sm:w-[3.75rem] lg:w-20'
+                  ]}
+                  href={`/technology/${slug}`}
+                >
+                  {index + 1}
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+      <div class="text-center lg:text-left">
+        <h6
+          class:list={[
+            'font-condensed text-secondary text-sm uppercase tracking-[0.17em]',
+            'sm:text-base'
+          ]}
+        >
+          The terminology…
+        </h6>
+        <h3
+          class:list={[
+            'font-serif text-2xl uppercase leading-none mt-2 mb-4',
+            'sm:text-[2.5rem] sm:mt-4 lg:text-[3.5rem] lg:mt-3'
+          ]}
+        >
+          {technology.data.name}
+        </h3>
+        <p
+          class:list={[
+            'text-secondary leading-[1.75] max-w-[28.5rem] mx-auto lg:mx-0',
+            'lg:text-lg lg:leading-8 lg:max-w-[27.75rem]'
+          ]}
+        >
+          {technology.data.description}
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
